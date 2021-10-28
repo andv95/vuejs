@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>test Vuejs</title>
+    <link rel="stylesheet" href="">
+    <style>
+        .text-green {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <p v-bind:class="className" v-bind:style="styleData" v-if="check(4)">Tin nhắn: {{ message | strUpperCase | addName }} - data
+        site: {{ getDataSite() }}</p>
+    <p>Nội dung: {{ getSite() }}</p>
+    <p v-html="message"></p>
+    <p @click="setColor('pink')">Tuổi là {{ age }} - {{ age%2==0 ? 'chẵn' : 'lẻ' }}</p>
+    <a v-on:click="showAlert()" :href="url">{{ message }}</a>
+    <form action="/" v-on:submit.prevent="showAlert">
+        <input type="submit" value="Gửi">
+    </form>
+    <p>Computed: {{convertToUpper}}</p>
+    <p>Computed with params: {{ convertUpperGetSet }} {{ message }}</p>
+</div>
+</body>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="app.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            url: 'https://www.google.com/',
+            message: '<span style="color:red"> Chào</span>',
+            className: 'text-green',
+            styleData: 'text-align: center',
+            age: 11,
+            publish: false,
+            getDataSite: function () {
+                return 'Dữ liệu site ' + this.message
+            },
+            check: function (param) {
+                return param % 2 == 0;
+            }
+        },
+        methods: {
+            getSite: function () {
+                return 'i am iron man';
+            },
+            showAlert: function () {
+                alert('Tuổi bạn hơi non');
+            },
+            setColor: function (color) {
+                alert('Màu ' + color);
+            }
+
+        },
+        filters: {
+            strUpperCase: function (data) {
+                return data.toUpperCase();
+            },
+            addName: function (data) {
+                return data + ' Thêm tý'
+            }
+        },
+        computed : {
+            convertToUpper: function () {
+                return this.message.toUpperCase();
+            },
+            convertUpperGetSet: {
+                get : function () {
+                    return this.message.toUpperCase();
+                },
+                set: function (message) {
+                    this.message = message;
+                }
+            }
+        }
+    });
+    app.convertUpperGetSet ="viet hoa voi tham so"
+    console.log(app.convertToUpper);
+    console.log(app.getSite());
+</script>
+</html>
